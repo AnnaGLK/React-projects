@@ -1,0 +1,70 @@
+.exercise1-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 250px;
+  margin: 20px auto;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.exercise1-container input {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+
+.exercise1-container input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
+}
+
+.exercise1-container button {
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.exercise1-container button:hover {
+  background-color: #357abd;
+}
+
+
+/* Exercise2 */
+.exercise2-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 250px;
+  margin: 20px auto;
+  font-family: Arial, sans-serif;
+}
+
+.text-input,
+.dropdown {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.dropdown {
+  background-color: #fff;
+}
+
+.text-input:focus,
+.dropdown:focus {
+  outline: none;
+  border-color: #4cafef;
+  box-shadow: 0 0 5px rgba(76, 175, 239, 0.5);
+}
