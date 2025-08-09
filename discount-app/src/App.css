@@ -1,0 +1,56 @@
+.App {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.nav {
+  margin-bottom: 20px;
+}
+
+.nav button {
+  margin: 0 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  background-color: #4a90e2;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav button:hover {
+  background-color: #357ab8;
+}
+
+.home .items {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.item-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  width: 200px;
+  background-color: #f9f9f9;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.item-card:hover {
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+}
+
+.price {
+  font-weight: bold;
+  color: #27ae60;
+}
+
+.landing {
+  background: #fff3cd;
+  padding: 20px;
+  border-radius: 10px;
+  display: inline-block;
+}
