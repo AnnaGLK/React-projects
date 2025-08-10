@@ -9,10 +9,25 @@ const NotesApp = () => {
     if (!noteText.trim()) return;
     const newNote = {
       text: noteText.trim(),
-      date: new Date().toLocaleString()
+      date: formatDate(new Date())
     };
     setNotes([newNote, ...notes]);
     setNoteText("");
+  };
+  const deleteNote = (index) => {
+    if (confirm("Are you sure you want to delete your note?")) {
+      setNotes(notes.filter((_, i) => i !== index));
+    }
+  };
+
+  const formatDate = (date) => {
+    return new Intl.DateTimeFormat("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true
+    }).format(date);
   };
 
   return (
@@ -28,9 +43,17 @@ const NotesApp = () => {
 
       <div className="notes-grid">
         {notes.map((note, index) => (
-          <div className="note-card" key={index}>
+          <div className="note-card" key={index}>            
+            <div className="note-footer">
+              <span className="note-date">{note.date}</span>
+              <button
+                className="delete-btn"
+                onClick={() => deleteNote(index)}
+              >
+                X
+              </button>
+            </div>
             <p>{note.text}</p>
-            <span className="note-date">{note.date}</span>
           </div>
         ))}
       </div>
