@@ -1,11 +1,17 @@
 .notes-container {
   max-width: 600px;
   margin: 0 auto;
-  text-align: center;
 }
-
-textarea {
-  width: 100%;
+.container {
+  background: #f8f9fa;
+  padding: 2%;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+textarea, input {
+  width: 90%;
   margin-bottom: 10px;
   padding: 8px;
   resize: vertical;
@@ -29,16 +35,15 @@ button {
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
-
-.note-date {
-  font-size: 0.8rem;
-  color: #555;
-}
-.note-footer {
+.note-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 8px;
+}
+.note-date {
+  font-size: 0.8rem;
+  color: #555;
 }
 .delete-btn {
   background-color: #dc3545;
@@ -48,7 +53,15 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-
 .delete-btn:hover {
   background-color: #b02a37;
+}
+.note-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s;
+}
+.note-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
 }
