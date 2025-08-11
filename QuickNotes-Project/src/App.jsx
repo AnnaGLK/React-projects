@@ -18,6 +18,8 @@ const NotesApp = () => {
   const [opened, setOpened] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("All");
 
   // Load notes from localStorage on mount
   useEffect(() => {
@@ -102,6 +104,15 @@ const NotesApp = () => {
     setNoteTitle("");
     setNoteText("");
   };
+
+  const filteredNotes = notes.filter(note => {
+    const matchesSearch =
+      note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      note.text.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      categoryFilter === "All" || note.category === categoryFilter;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="notes-container">
@@ -197,10 +208,39 @@ const NotesApp = () => {
         <button onClick={addNote}>Add Note</button>
       </div>
 
+      {/* Search bar */}
+      <input
+        type="text"
+        placeholder="Search notes..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{ marginTop: "20px", padding: "8px", width: "100%" }}
+      />
+
+      {/* category filter buttons */}
+      <div style={{ margin: "10px 0" }}>
+        {["All", ...Object.keys(categoryColors)].map(cat => (
+          <button
+            key={cat}
+            onClick={() => setCategoryFilter(cat)}
+            style={{
+              marginRight: "8px",
+              padding: "6px 12px",
+              backgroundColor: categoryFilter === cat ? "#ccc" : "#eee",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer"
+            }}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       {/* Notes grid */}
 
       <div className="notes-grid">
-        {notes.map((note, index) => (
+        {filteredNotes.map((note, index) => (
           <div className="note-card"
             key={index}
             onClick={() => openNote(note, index)}
