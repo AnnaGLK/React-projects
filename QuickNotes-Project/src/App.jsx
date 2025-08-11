@@ -1,28 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, Text, Title, Button, Group } from "@mantine/core";
 import './App.css'
+
+
+const categoryColors = { // predefined colors
+  Personal: "#fce4ec",
+  Work: "#e3f2fd",
+  Ideas: "#e8f5e9",
+  Other: "#fff8e1",
+};
 
 const NotesApp = () => {
   const [noteText, setNoteText] = useState("");
   const [noteTitle, setNoteTitle] = useState("");
   const [notes, setNotes] = useState([]);
+  const [noteCategory, setNoteCategory] = useState("Personal");
   const [opened, setOpened] = useState(false);
   const [selectedNote, setSelectedNote] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  
+  // Load notes from localStorage on mount
+  useEffect(() => {
+    const savedNotes = localStorage.getItem("notes");
+    if (savedNotes) {
+      setNotes(JSON.parse(savedNotes));
+    }
+  }, []);
+
+  // Save notes to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem("notes", JSON.stringify(notes));
+  }, [notes]);
+
   const addNote = () => {
     if (!noteText.trim()) return;
 
     const newNote = {
       title: noteTitle.trim(),
       text: noteText.trim(),
+      category: noteCategory,
       date: formatDate(new Date()),
-      updatedAt: null 
+      updatedAt: null
     };
     setNotes([newNote, ...notes]);
     setNoteTitle("");
     setNoteText("");
+    setNoteCategory("Personal");
   };
 
   const formatDate = (date) => {
@@ -45,6 +68,7 @@ const NotesApp = () => {
     setSelectedNote({ ...note, index });
     setNoteTitle(note.title);
     setNoteText(note.text);
+    setNoteCategory(note.category);
     setIsEditing(true);
     setOpened(true);
   };
@@ -57,6 +81,7 @@ const NotesApp = () => {
             ...n,
             title: noteTitle.trim(),
             text: noteText.trim(),
+            category: noteCategory,
             updatedAt: formatDate(new Date()),
           }
           : n
@@ -66,10 +91,11 @@ const NotesApp = () => {
     setIsEditing(false);
     setNoteTitle("");
     setNoteText("");
+    setNoteCategory("Personal");
     setSelectedNote(null);
   };
 
-  const closeModal = () => { // *** CHANGED - extracted function
+  const closeModal = () => {
     setOpened(false);
     setIsEditing(false);
     setSelectedNote(null);
@@ -89,31 +115,43 @@ const NotesApp = () => {
           blur: 3,
         }}
       >
- {isEditing ? (
+        {isEditing ? (
           <>
-      
-         <input
-          placeholder="Note title"
-          value={noteTitle}
-          onChange={(e) => setNoteTitle(e.target.value)}
-          
-        />
-        <textarea
-          rows="4"
-          placeholder="Write your note here..."
-          value={noteText}
-          onChange={(e) => setNoteText(e.target.value)}
-          
-        />
-        <Group mt="md">
-          <Button onClick={saveEditedNote}>Save</Button>
-          <Button variant="outline"  onClick={closeModal}>
-            Cancel
-          </Button>
-        </Group>    
-        
-        </>
-          ) : (
+
+            <input
+              placeholder="Note title"
+              value={noteTitle}
+              onChange={(e) => setNoteTitle(e.target.value)}
+
+            />
+            <textarea
+              rows="4"
+              placeholder="Write your note here..."
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+
+            />
+            <select
+              value={noteCategory}
+              onChange={(e) => setNoteCategory(e.target.value)}
+              style={{ width: "100%", marginBottom: "10px" }}
+            >
+              {Object.keys(categoryColors).map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+
+            <Group mt="md">
+              <Button onClick={saveEditedNote}>Save</Button>
+              <Button variant="outline" onClick={closeModal}>
+                Cancel
+              </Button>
+            </Group>
+
+          </>
+        ) : (
           selectedNote && (
             <>
               <Text size="sm" color="dimmed">
@@ -131,6 +169,8 @@ const NotesApp = () => {
         )}
       </Modal>
 
+      {/* Add note form */}
+
       <div className="container">
         <h2>My Notes</h2>
         <input
@@ -144,11 +184,28 @@ const NotesApp = () => {
           value={noteText}
           onChange={(e) => setNoteText(e.target.value)}
         />
+        <select
+          value={noteCategory}
+          onChange={(e) => setNoteCategory(e.target.value)}
+        >
+          {Object.keys(categoryColors).map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
         <button onClick={addNote}>Add Note</button>
       </div>
+
+      {/* Notes grid */}
+
       <div className="notes-grid">
         {notes.map((note, index) => (
-          <div className="note-card" key={index} onClick={() => openNote(note, index)}>
+          <div className="note-card"
+            key={index}
+            onClick={() => openNote(note, index)}
+            style={{ backgroundColor: categoryColors[note.category] }}
+          >
             <div className="note-header">
               <span className="note-date">{note.date}</span>
               <button
@@ -161,6 +218,7 @@ const NotesApp = () => {
 
             {note.title && <h3>{note.title}</h3>}
             <p>{note.text}</p>
+            <small>Category: {note.category}</small>
           </div>
         ))}
       </div>

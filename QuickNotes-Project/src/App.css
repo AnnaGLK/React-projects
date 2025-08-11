@@ -31,7 +31,7 @@ input {
 }
 
 .note-card {
-  background: #f8f9fa;
+  /* background: #f8f9fa; */
   padding: 12px;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
@@ -85,7 +85,7 @@ input {
   background-color: #f8f9fa;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
-      padding: 4%;
+  padding: 4%;
 }
 .mantine-Modal-header {
   background-color: #f8f9fa;
@@ -111,7 +111,7 @@ input {
   border-radius: 4px;
   cursor: pointer;
 }
-svg{
+svg {
   width: 24px !important;
   height: 24px !important;
   fill: #555;
